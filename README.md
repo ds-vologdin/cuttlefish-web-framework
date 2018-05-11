@@ -28,12 +28,12 @@ urls.py - пользовательское объявление экземпля
 view.py -  пользовательские обработчики
 
 ## Пример использования
-В urls.py описываем нужные нам url и их обработчики
+В urls.py описываем нужные нам url, их обработчики и аргументы, которые нужно передать обработчику при вызове
 ```
 urls_handlers = UrlsHandlers(
     {
-        '/': view.handler_1,
-        '/web/': view.handler_2
+        '/': (view.handler_1, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
+        '/web/': (view.handler_2, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
     }
 )
 ```
