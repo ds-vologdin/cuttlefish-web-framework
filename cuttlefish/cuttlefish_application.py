@@ -20,7 +20,8 @@ def cuttlefish_aplication_url(request_uri, urls_handlers=None, env=None):
 
     registered_urls = urls_handlers.get_registered_urls()
 
-    if request_uri not in registered_urls:
+    # if request_uri not in registered_urls:
+    if not urls_handlers.is_registered_urls(request_uri):
         return url_not_found(request_uri)
 
     respone_handler = registered_urls[request_uri](env)
