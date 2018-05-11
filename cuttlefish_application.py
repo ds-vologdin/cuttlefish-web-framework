@@ -1,3 +1,32 @@
-def application(env, start_response):
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return [b"Hello World!!!"]
+def cuttlefish_application(env, start_response, urls_handlers):
+    request_uri = env['REQUEST_URI']
+    respone = cuttlefish_aplication_url(request_uri, urls_handlers, env)
+    start_response(respone['http_code'], respone['http_content'])
+    return [respone['respone']]
+
+
+def url_not_found(request_uri):
+    respone = 'uri "{}" not registered'.format(request_uri)
+    return {
+        'respone': respone.encode(),
+        'http_code': '404 Not Found',
+        'http_content': [('Content-Type', 'text/html')],
+    }
+
+
+def cuttlefish_aplication_url(request_uri, urls_handlers=None, env=None):
+    if not urls_handlers or not request_uri:
+        return url_not_found(request_uri)
+
+    registered_urls = urls_handlers.get_registered_urls()
+
+    if request_uri not in registered_urls:
+        return url_not_found(request_uri)
+
+    respone_handler = registered_urls[request_uri](env)
+
+    return {
+        'respone': respone_handler.encode(),
+        'http_code': '200 OK',
+        'http_content': [('Content-Type', 'text/html')],
+    }
