@@ -69,4 +69,4 @@ def handler_2(request, arg_dict={}):
 ```
 uwsgi --plugin python3 --http-socket localhost:9090 --wsgi-file application.py
 ```
-В браузе заходим на http://localhost:9090/
+В браузер заходим на http://localhost:9090/
