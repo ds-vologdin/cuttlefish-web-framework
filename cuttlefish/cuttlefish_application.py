@@ -23,7 +23,10 @@ def cuttlefish_aplication_url(request_uri, urls_handlers=None, env=None):
     if not urls_handlers.is_registered_urls(request_uri):
         return url_not_found(request_uri)
 
-    respone_handler = registered_urls[request_uri](env)
+    # Запускаем обработчик
+    handler = registered_urls[request_uri][0]
+    handler_arg_dict = registered_urls[request_uri][1]
+    respone_handler = handler(env, handler_arg_dict)
 
     return {
         'respone': respone_handler.encode(),
