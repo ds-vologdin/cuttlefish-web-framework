@@ -1,4 +1,4 @@
-from cuttlefish_application import cuttlefish_application
+from cuttlefish.cuttlefish_application import cuttlefish_application
 import urls
 
 

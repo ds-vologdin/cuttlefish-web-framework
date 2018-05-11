@@ -1,4 +1,4 @@
-from cuttlefish_urls import UrlsHandlers
+from cuttlefish.cuttlefish_urls import UrlsHandlers
 import view
 
 
