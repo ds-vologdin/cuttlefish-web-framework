@@ -24,8 +24,8 @@ def cuttlefish_aplication_url(request_uri, urls_handlers=None, env=None):
         return url_not_found(request_uri)
 
     # Запускаем обработчик
-    handler = registered_urls[request_uri][0]
-    handler_arg_dict = registered_urls[request_uri][1]
+    handler, handler_arg_dict = urls_handlers.get_handler(request_uri)
+
     respone_handler = handler(env, handler_arg_dict)
 
     return {

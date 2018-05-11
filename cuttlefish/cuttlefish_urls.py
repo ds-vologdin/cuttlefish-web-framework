@@ -8,6 +8,11 @@ class UrlsHandlers:
     def is_registered_urls(self, url):
         return url in self.urls_handlers
 
+    def get_handler(self, url):
+        if not self.is_registered_urls(url):
+            return None
+        return self.urls_handlers[url]
+
     def register_url(self, url=None, handler=None):
         if url and handler:
             self.urls_handlers.update({url: handler})
