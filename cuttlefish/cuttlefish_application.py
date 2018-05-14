@@ -1,5 +1,5 @@
 def cuttlefish_application(env, start_response, urls_handlers):
-    request_uri = env['REQUEST_URI']
+    request_uri = env['PATH_INFO']
     respone = cuttlefish_aplication_url(request_uri, urls_handlers, env)
     start_response(respone['http_code'], respone['http_content'])
     return [respone['respone']]
