@@ -7,8 +7,6 @@ class UrlsHandlers:
         # urls_re используется для упрощения поиска вхождения url
         # в зарегистрированные
         self.urls_re = self.get_urls_re()
-        print(self.urls_handlers)
-        print(self.urls_re)
 
     def get_registered_urls(self):
         return self.urls_handlers
@@ -19,7 +17,6 @@ class UrlsHandlers:
             if re.findall(url_re, url):
                 return True
         return False
-        # return url in self.urls_handlers
 
     def get_handler(self, url):
         if not self.is_registered_urls(url):
