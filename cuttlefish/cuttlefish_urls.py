@@ -26,13 +26,14 @@ class UrlsHandlers:
             return None
         for url_handler in self.urls_handlers:
             if re.findall(url_handler.get('url_re'), url):
-                return url_handler.get('handler')
+                args = self.parse_url_args(url_handler.get('url_re'), url)
+                # не забываем про аргументы из urls.py
+                args.update(url_handler.get('args_url'))
+                return {
+                    'handler': url_handler.get('handler'),
+                    'args': args,
+                }
         return None
-
-    # def register_url(self, url=None, handler=None):
-    #     if url and handler:
-    #         self.urls_handlers.update({url: handler})
-    #     return self.urls_handlers
 
     def get_urls_re(self):
         urls_re = []
@@ -43,8 +44,9 @@ class UrlsHandlers:
     def parse_urls_handlers(self, urls_handlers_raw):
         urls_handlers = []
         for url in urls_handlers_raw:
+            handler, args = urls_handlers_raw.get(url)
             url_handler = self.parse_url(url)
-            url_handler.update({'handler': urls_handlers_raw.get(url)})
+            url_handler.update({'handler': handler, 'args_url': args})
             urls_handlers.append(url_handler)
         return urls_handlers
 
@@ -58,8 +60,29 @@ class UrlsHandlers:
 
     def get_url_args_re(self, url):
         # Прасим шаблоны типа /path/<int:arg1>/<int:arg2>/
-        args = re.findall(r'<\w*:\w*>', url)
+        args = re.findall(r'<\w+:\w+>', url)
         url_re = '^{}$'.format(url)
         for arg in args:
-            url_re = url_re.replace(arg, r'\w*')
+            # arg_name = arg[1:-1].split(':')[1]
+            arg_name = arg[1:-1].replace(':', '_')
+            url_re = url_re.replace(arg, r'(?P<{}>\w+)'.format(arg_name))
         return url_re, args
+
+    def parse_url_args(self, templete, url_current):
+        match = re.search(templete, url_current)
+
+        args = match.groupdict()
+        for arg in args.copy():
+            type_arg = arg.split('_')[0]
+            if type_arg == 'int':
+                try:
+                    args[arg[4:]] = int(args[arg])
+                    del args[arg]
+                except:
+                    # Здесь надо как-то обработать ошибку
+                    # пока обработку оставляю на совесть views
+                    pass
+            if type_arg == 'str':
+                args[arg[4:]] = args[arg]
+                del args[arg]
+        return args

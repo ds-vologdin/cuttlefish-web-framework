@@ -21,10 +21,14 @@ def cuttlefish_aplication_url(request_uri, urls_handlers=None, env=None):
     if not urls_handlers.is_registered_urls(request_uri):
         return url_not_found(request_uri)
 
-    # Запускаем обработчик
-    handler, handler_arg_dict = urls_handlers.get_handler(request_uri)
+    handler = urls_handlers.get_handler(request_uri)
 
-    respone_handler = handler(env, handler_arg_dict)
+    if not handler:
+        return url_not_found(request_uri)
+
+    # Хендлер скрывается за словарём:
+    # {'args': {'arg1': '34342', 'arg2': '432'}, 'handler': <function handler>}
+    respone_handler = handler['handler'](env, handler.get('args', {}))
 
     return {
         'respone': respone_handler.encode(),
