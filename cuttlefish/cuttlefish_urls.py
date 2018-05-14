@@ -35,7 +35,7 @@ class UrlsHandlers:
     def get_urls_re(self):
         urls_re = []
         for url_handler in self.urls_handlers:
-            urls_re.append(self.get_url_args_re(url_handler.get('url'))[0])
+            urls_re.append(self.get_url_args_re(url_handler.get('url')))
         return urls_re
 
     def parse_urls_handlers(self, urls_handlers_raw):
@@ -48,11 +48,11 @@ class UrlsHandlers:
         return urls_handlers
 
     def parse_url(self, url):
-        url_re, args = self.get_url_args_re(url)
+        # url_re, args = self.get_url_args_re(url)
+        url_re = self.get_url_args_re(url)
         return {
             'url': url,
             'url_re': url_re,
-            'args_url': args,
         }
 
     def get_url_args_re(self, url):
@@ -60,10 +60,9 @@ class UrlsHandlers:
         args = re.findall(r'<\w+:\w+>', url)
         url_re = '^{}$'.format(url)
         for arg in args:
-            # arg_name = arg[1:-1].split(':')[1]
             arg_name = arg[1:-1].replace(':', '_')
             url_re = url_re.replace(arg, r'(?P<{}>\w+)'.format(arg_name))
-        return url_re, args
+        return url_re
 
     def parse_url_args(self, templete, url_current):
         match = re.search(templete, url_current)
