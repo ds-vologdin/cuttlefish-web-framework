@@ -14,7 +14,7 @@
 
 ```uwsgi --plugin python3 --http-socket localhost:9090 --wsgi-file application.py```
 
-Хитрость в подгрузке плагина python3 (без него вопреки документации в [quickstart](http://uwsgi.readthedocs.io/en/latest/WSGIquickstart.html) не находит опцию --wsgi-file)
+Хитрость в подгрузке плагина python3 (без него вопреки документации в [quickstart](http://uwsgi.readthedocs.io/en/latest/WSGIquickstart.html) не находит опцию --wsgi-file). Хотя возможно эта проблема как-то решается иначе, обратитесь к документации uwsgi.
 
 ## Структура фреймфорка
 cuttlefish/cuttlefish_application.py - основа фреймфорка
@@ -34,6 +34,8 @@ urls_handlers = UrlsHandlers(
     {
         '/': (view.handler_1, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
         '/web/': (view.handler_2, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
+        '/web/<int:arg1>/': (view.handler_2, {'arg_key1': 'arg1'}),
+        '/article/<str:arg1>/': (view.handler_2, {}),
     }
 )
 ```
@@ -44,11 +46,12 @@ def handler_1(request, arg_dict={}):
 <html>
     <body>
         <h1>Handler 1</h1>
-        <p>Hello from cuttlefish<p>
-        <p>argument 1: {0}<p>
+        <p>Hello from cuttlefish</p>
+        <p>arguments:</p>
+        <p>{}</p>
     </body>
 </html>
-    '''.format(arg_dict.get('arg_key1', 'arg_key1 is not set'))
+    '''.format(json.dump(arg_dict))
     return respone
 
 
@@ -57,11 +60,12 @@ def handler_2(request, arg_dict={}):
 <html>
     <body>
         <h1>Handler 2</h1>
-        <p>Hello from cuttlefish<p>
-        <p>argument 2: {0}<p>
+        <p>Hello from cuttlefish</p>
+        <p>arguments:</p>
+        <p>{}</p>
     </body>
 </html>
-    '''.format(arg_dict.get('arg_key2', 'arg_key2 is not set'))
+    '''.format(json.dumps(arg_dict))
     return respone
 ```
 
