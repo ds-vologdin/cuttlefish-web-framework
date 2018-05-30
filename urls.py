@@ -1,5 +1,5 @@
 from cuttlefish.cuttlefish_urls import UrlsHandlers
-import view
+import controler
 
 # Шаблоны задаются в словаре вида
 # {
@@ -14,9 +14,12 @@ import view
 
 urls_handlers = UrlsHandlers(
     {
-        '/': (view.handler_1, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
-        '/web/': (view.handler_2, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
-        '/web/<int:arg1>/': (view.handler_2, {'arg_key1': 'arg1'}),
-        '/article/<str:arg1>/': (view.handler_2, {}),
+        '/': (controler.handler_1, {'arg_key1': 'arg1', 'arg_key2': 'arg2'}),
+        '/web/': (
+            controler.handler_2,
+            {'arg_key1': 'arg1', 'arg_key2': 'arg2'}
+        ),
+        '/web/<int:arg1>/': (controler.handler_2, {'arg_key1': 'arg1'}),
+        '/article/<str:arg1>/': (controler.handler_2, {}),
     }
 )
