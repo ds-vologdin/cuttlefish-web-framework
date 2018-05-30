@@ -23,3 +23,7 @@ urls_handlers = UrlsHandlers(
         '/article/<str:arg1>/': (controler.handler_2, {}),
     }
 )
+
+urls_handlers.add_urls_handlers(
+    {'/web/web/': (controler.handler_2, {'arg_key1': 'arg1'})}
+)

@@ -8,6 +8,11 @@ class UrlsHandlers:
         # в зарегистрированные
         self.urls_re = self.get_urls_re()
 
+    def add_urls_handlers(self, urls_handlers={}):
+        new_urls_handlers = self.parse_urls_handlers(urls_handlers)
+        self.urls_handlers += new_urls_handlers
+        self.urls_re = self.get_urls_re()
+
     def get_registered_urls(self):
         return self.urls_handlers
 
