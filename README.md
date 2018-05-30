@@ -14,7 +14,7 @@
 
 ```uwsgi --plugin python3 --http-socket localhost:9090 --wsgi-file application.py```
 
-Хитрость в подгрузке плагина python3 (без него вопреки документации в [quickstart](http://uwsgi.readthedocs.io/en/latest/WSGIquickstart.html) не находит опцию --wsgi-file). Хотя возможно эта проблема как-то решается иначе, обратитесь к документации uwsgi.
+Хитрость в подгрузке плагина python3 (без него вопреки документации в [quickstart](http://uwsgi.readthedocs.io/en/latest/WSGIquickstart.html) не находит опцию --wsgi-file). Хотя это локальная проблема, чаще всего плагины python3 будут подключаться по умолчанию. Если у вас возникают какие-то проблемы с uwsgi обратитесь к его [документации](http://uwsgi.readthedocs.io/en/latest/).
 
 ## Структура фреймфорка
 cuttlefish/cuttlefish_application.py - основа фреймфорка
@@ -25,7 +25,7 @@ application.py - обработчик отвечающий за взаимоде
 
 urls.py - пользовательское объявление экземпляра класса (здесь задаются url и их обработчики)
 
-view.py -  пользовательские обработчики
+controler.py -  пользовательские обработчики
 
 ## Пример использования
 В urls.py описываем нужные нам url, их обработчики и аргументы, которые нужно передать обработчику при вызове
@@ -39,7 +39,7 @@ urls_handlers = UrlsHandlers(
     }
 )
 ```
-В view.py пишем, указанные в urls_handlers обработчики
+В controler.py размещаем, указанные в urls_handlers обработчики
 ```
 def handler_1(request, arg_dict={}):
     respone = '''<!DOCTYPE html>
