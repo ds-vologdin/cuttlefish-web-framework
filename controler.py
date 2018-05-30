@@ -2,6 +2,10 @@ import json
 
 
 def handler_1(request, arg_dict={}):
+    args = ''
+    if arg_dict and isinstance(arg_dict, dict):
+        args = json.dumps(arg_dict)
+
     respone = '''<!DOCTYPE html>
 <html>
     <body>
@@ -11,11 +15,15 @@ def handler_1(request, arg_dict={}):
         <p>{}</p>
     </body>
 </html>
-    '''.format(json.dump(arg_dict))
+    '''.format(args)
     return respone
 
 
 def handler_2(request, arg_dict={}):
+    args = ''
+    if arg_dict and isinstance(arg_dict, dict):
+        args = json.dumps(arg_dict)
+
     respone = '''<!DOCTYPE html>
 <html>
     <body>
@@ -25,5 +33,5 @@ def handler_2(request, arg_dict={}):
         <p>{}</p>
     </body>
 </html>
-    '''.format(json.dumps(arg_dict))
+    '''.format(args)
     return respone
