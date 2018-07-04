@@ -60,7 +60,8 @@ class UrlsHandlers:
             'url_re': url_re,
         }
 
-    def get_url_args_re(self, url):
+    @staticmethod
+    def get_url_args_re(url):
         # Прасим шаблоны типа /path/<int:arg1>/<int:arg2>/
         args = re.findall(r'<\w+:\w+>', url)
         url_re = '^{}$'.format(url)
@@ -69,8 +70,9 @@ class UrlsHandlers:
             url_re = url_re.replace(arg, r'(?P<{}>\w+)'.format(arg_name))
         return url_re
 
-    def parse_url_args(self, templete, url_current):
-        match = re.search(templete, url_current)
+    @staticmethod
+    def parse_url_args(template, url_current):
+        match = re.search(template, url_current)
 
         args = match.groupdict()
         for arg in args.copy():

@@ -6,7 +6,7 @@ def handler_1(request, arg_dict={}):
     if arg_dict and isinstance(arg_dict, dict):
         args = json.dumps(arg_dict)
 
-    respone = '''<!DOCTYPE html>
+    response = '''<!DOCTYPE html>
 <html>
     <body>
         <h1>Handler 1</h1>
@@ -16,7 +16,7 @@ def handler_1(request, arg_dict={}):
     </body>
 </html>
     '''.format(args)
-    return respone
+    return response
 
 
 def handler_2(request, arg_dict={}):
@@ -24,7 +24,7 @@ def handler_2(request, arg_dict={}):
     if arg_dict and isinstance(arg_dict, dict):
         args = json.dumps(arg_dict)
 
-    respone = '''<!DOCTYPE html>
+    response = '''<!DOCTYPE html>
 <html>
     <body>
         <h1>Handler 2</h1>
@@ -34,4 +34,4 @@ def handler_2(request, arg_dict={}):
     </body>
 </html>
     '''.format(args)
-    return respone
+    return response

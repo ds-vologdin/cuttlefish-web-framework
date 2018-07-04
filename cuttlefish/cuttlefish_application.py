@@ -1,14 +1,14 @@
 def cuttlefish_application(env, start_response, urls_handlers):
     request_uri = env['PATH_INFO']
-    respone = cuttlefish_aplication_url(request_uri, urls_handlers, env)
-    start_response(respone['http_code'], respone['http_content'])
-    return [respone['respone']]
+    response = cuttlefish_aplication_url(request_uri, urls_handlers, env)
+    start_response(response['http_code'], response['http_content'])
+    return [response['response']]
 
 
 def url_not_found(request_uri):
-    respone = 'uri "{}" not registered'.format(request_uri)
+    response = 'uri "{}" not registered'.format(request_uri)
     return {
-        'respone': respone.encode('utf-8'),
+        'response': response.encode('utf-8'),
         'http_code': '404 Not Found',
         'http_content': [('Content-Type', 'text/html')],
     }
@@ -28,10 +28,10 @@ def cuttlefish_aplication_url(request_uri, urls_handlers=None, env=None):
 
     # Хендлер скрывается за словарём:
     # {'args': {'arg1': '34342', 'arg2': '432'}, 'handler': <function handler>}
-    respone_handler = handler['handler'](env, handler.get('args', {}))
+    response_handler = handler['handler'](env, handler.get('args', {}))
 
     return {
-        'respone': respone_handler.encode('utf-8'),
+        'response': response_handler.encode('utf-8'),
         'http_code': '200 OK',
         'http_content': [('Content-Type', 'text/html')],
     }
